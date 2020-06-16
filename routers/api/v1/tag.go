@@ -52,10 +52,12 @@ func GetTags(c *gin.Context) {
 //新增文章标签
 func AddTag(c *gin.Context) {
 	name := c.Query("name")
+	icon := c.Query("icon")
 	state := com.StrTo(c.DefaultQuery("state", "0")).MustInt()
 	createdBy := c.Query("created_by")
 
 	valid := validation.Validation{}
+	valid.Required(icon, "icon").Message("图标不能为空")
 	valid.Required(name, "name").Message("名称不能为空")
 	valid.MaxSize(name, 100, "name").Message("名称最长为100字符")
 	valid.Required(createdBy, "created_by").Message("创建人不能为空")
@@ -66,7 +68,7 @@ func AddTag(c *gin.Context) {
 	if !valid.HasErrors() {
 		if !models.ExistTagByName(name) {
 			code = e.SUCCESS
-			models.AddTag(name, state, createdBy)
+			models.AddTag(name, state, createdBy, icon)
 		} else {
 			code = e.ERROR_EXIST_TAG
 		}
