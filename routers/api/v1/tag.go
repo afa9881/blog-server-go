@@ -5,6 +5,7 @@ import (
 	"blog-server-go/pkg/e"
 	"blog-server-go/pkg/setting"
 	"blog-server-go/pkg/util"
+	"fmt"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
 	"github.com/unknwon/com"
@@ -13,6 +14,7 @@ import (
 
 //获取多个文章标签
 func GetTags(c *gin.Context) {
+	fmt.Print("aaaaa")
 	name := c.Query("name")
 
 	maps := make(map[string]interface{})

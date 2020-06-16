@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"blog-server-go/middleware/jwt"
+	"blog-server-go/middleware/cors"
 	"blog-server-go/routers/api"
 	v1 "blog-server-go/routers/api/v1"
 	"github.com/gin-gonic/gin"
@@ -15,17 +15,19 @@ import (
 func InitRouter() *gin.Engine {
 	r := gin.New()
 
+	r.Use(cors.CorsMiddleware())
+
 	r.Use(gin.Logger())
 
 	r.Use(gin.Recovery())
 
 	gin.SetMode(setting.RunMode)
 
-	r.GET("/auth", api.GetAuth)
+	r.POST("/auth", api.GetAuth)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	apiv1 := r.Group("/api/v1")
-	apiv1.Use(jwt.JWT())
+	//apiv1.Use(jwt.JWT())
 	{
 		//获取标签列表
 		apiv1.GET("/tags", v1.GetTags)

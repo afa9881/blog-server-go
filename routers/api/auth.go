@@ -17,10 +17,14 @@ type auth struct {
 }
 
 func GetAuth(c *gin.Context) {
-	username := c.Query("username")
-	password := c.Query("password")
+	c.Request.ParseForm()
+	for k, v := range c.Request.PostForm {
+		fmt.Printf("k:%v\n", k)
+		fmt.Printf("v:%v\n", v)
+	}
 
-	fmt.Print(username, password)
+	username := c.PostForm("username")
+	password := c.PostForm("password")
 
 	valid := validation.Validation{}
 	a := auth{Username: username, Password: password}
