@@ -3,7 +3,6 @@ module blog-server-go
 go 1.14
 
 require (
-	github.com/EDDYCJY/go-gin-example v0.0.0-20200505102242-63963976dee0 // indirect
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/astaxie/beego v1.12.1
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
@@ -18,6 +17,7 @@ require (
 	github.com/jinzhu/gorm v1.9.13
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/mailru/easyjson v0.7.1 // indirect
+	github.com/robfig/cron v1.2.0 // indirect
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.7
 	github.com/unknwon/com v1.0.1
