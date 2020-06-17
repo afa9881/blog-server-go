@@ -1,20 +1,37 @@
 package main
 
 import (
+	"blog-server-go/models"
+	"blog-server-go/pkg/gredis"
+	"blog-server-go/pkg/logging"
 	"blog-server-go/pkg/setting"
+	"blog-server-go/pkg/util"
 	"blog-server-go/routers"
 	"fmt"
+
 	"github.com/fvbock/endless"
 	"log"
 	"syscall"
 )
 
-func main() {
-	endless.DefaultReadTimeOut = setting.ReadTimeout
-	endless.DefaultWriteTimeOut = setting.WriteTimeout
-	endless.DefaultMaxHeaderBytes = 1 << 20
-	endPoint := fmt.Sprintf(":%d", setting.HTTPPort)
+func init() {
+	setting.Setup()
+	models.Setup()
+	logging.Setup()
+	gredis.Setup()
+	util.Setup()
+}
 
+func main() {
+
+	endless.DefaultReadTimeOut = setting.ServerSetting.ReadTimeout
+	endless.DefaultWriteTimeOut = setting.ServerSetting.WriteTimeout
+
+	//endless.DefaultReadTimeOut = setting.ReadTimeout
+	//endless.DefaultWriteTimeOut = setting.WriteTimeout
+	endless.DefaultMaxHeaderBytes = 1 << 20
+	endPoint := fmt.Sprintf(":%d", setting.ServerSetting.HttpPort)
+	//endPoint := fmt.Sprintf(":%d", setting.HTTPPort)
 	server := endless.NewServer(endPoint, routers.InitRouter())
 
 	server.BeforeBegin = func(add string) {

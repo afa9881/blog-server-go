@@ -1,6 +1,7 @@
 package logging
 
 import (
+	"blog-server-go/pkg/file"
 	"fmt"
 	"log"
 	"os"
@@ -29,13 +30,23 @@ const (
 	FATAL
 )
 
-func init() {
-	filePath := getLogFileFullPath()
-	F = openLogFile(filePath)
+//func init() {
+//	filePath := getLogFileFullPath()
+//	F = openLogFile(filePath)
+//
+//	logger = log.New(F, DefaultPrefix, log.LstdFlags)
+//}
 
+func Setup() {
+	var err error
+	filePath := getLogFilePath()
+	fileName := getLogFileName()
+	F, err = file.MustOpen(fileName, filePath)
+	if err != nil {
+		log.Fatalf("logging.Setup err: %v", err)
+	}
 	logger = log.New(F, DefaultPrefix, log.LstdFlags)
 }
-
 func Debug(v ...interface{}) {
 	setPrefix(DEBUG)
 	logger.Println(v)
