@@ -3,7 +3,6 @@ package routers
 import (
 	_ "blog-server-go/docs"
 	"blog-server-go/middleware/cors"
-	"blog-server-go/middleware/jwt"
 	"blog-server-go/pkg/export"
 	"blog-server-go/pkg/qrcode"
 	"blog-server-go/pkg/setting"
@@ -35,7 +34,7 @@ func InitRouter() *gin.Engine {
 	r.POST("/upload", api.UploadImage)
 
 	apiv1 := r.Group("/api/v1")
-	apiv1.Use(jwt.JWT())
+	//apiv1.Use(jwt.JWT())
 	{
 		//导出标签
 		r.POST("/tags/export", v1.ExportTag)

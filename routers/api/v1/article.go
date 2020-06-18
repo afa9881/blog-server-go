@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/astaxie/beego/validation"
@@ -68,23 +69,24 @@ func GetArticles(c *gin.Context) {
 	valid := validation.Validation{}
 
 	state := -1
-	if arg := c.PostForm("state"); arg != "" {
+	if arg := c.Query("state"); arg != "" {
 		state = com.StrTo(arg).MustInt()
 		valid.Range(state, 0, 1, "state")
 	}
 
 	tagId := -1
-	if arg := c.PostForm("tag_id"); arg != "" {
+
+	if arg := c.Query("tag_id"); arg != "" {
 		tagId = com.StrTo(arg).MustInt()
 		valid.Min(tagId, 1, "tag_id")
 	}
 
+	fmt.Print(c.Query("tag_id"))
 	if valid.HasErrors() {
 		app.MarkErrors(valid.Errors)
 		appG.Response(http.StatusBadRequest, e.INVALID_PARAMS, nil)
 		return
 	}
-
 	articleService := article_service.Article{
 		TagID:    tagId,
 		State:    state,
@@ -107,7 +109,6 @@ func GetArticles(c *gin.Context) {
 	data := make(map[string]interface{})
 	data["lists"] = articles
 	data["total"] = total
-
 	appG.Response(http.StatusOK, e.SUCCESS, data)
 }
 

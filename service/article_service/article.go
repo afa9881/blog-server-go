@@ -81,7 +81,6 @@ func (a *Article) GetAll() ([]*models.Article, error) {
 	var (
 		articles, cacheArticles []*models.Article
 	)
-
 	cache := cache_service.Article{
 		TagID: a.TagID,
 		State: a.State,
